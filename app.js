@@ -81,7 +81,7 @@ function handleClick(event) {
   if (Product.totalClicks > 24) {
     Product.container.removeEventListener('click', handleClick);
     //show the list after the last click
-    showTally();
+    chart();
   }
   //this is how we direct the user to click on a specific image
   if (event.target.id === 'image_container') {
@@ -99,7 +99,46 @@ function handleClick(event) {
 }
 
 //show the tally using the list in the DOM once the event listener has been removed
-function showTally() {
+function chart() {
+  var pTotal = [];
+  var pNames = [];
+  var labelColors = ['red', 'blue', 'yellow', 'green', 'purple', 'orange', 'red', 'blue', 'yellow', 'green', 'purple', 'orange', 'red', 'blue', 'yellow', 'green', 'purple', 'orange', 'red', 'blue'];
+  var ctx = document.getElementById('chart').getContext('2d');
+  // var gradient = ctx.createLinearGradient(0, 0, 200, 0);
+  // gradient.addColorStop(0, 'green');
+  // gradient.addColorStop(1, 'white');
+  // ctx.fillStyle = gradient;
+  // ctx.fillRect(10, 10, 200, 100);
+  for (var i = 0; i < Product.all.length; i++) {
+  pTotal[i] = Product.all[i].votes;
+  pNames[i] = Product.all[i].name;
+  }
+  Chart.defaults.global.defaultColor = '#ffffff'; 
+  Chart.defaults.global.defaultFontColor = '#ffffff';
+  Chart.defaults.global.defaultFontSize = 18;
+  Chart.defaults.global.defaultFontFamily = 'Vollkorn';
+  Chart.defaults.global.deafultFontStyle = 'bold';
+  var myChart = new Chart(ctx, {
+    type: 'bar', 
+    data: {
+        labels: pNames,
+        datasets: [{
+            label: '# of Votes',
+            data: pTotal,
+            backgroundColor: labelColors,
+            fontStyle:'bold',
+          }]
+        },
+    options: {
+       scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
   for (var i = 0; i < Product.all.length; i++) {
     var liEl = document.createElement('li');
     liEl.textContent = Product.all[i].name + ' has ' + Product.all[i].votes + ' votes in ' + Product.all[i].views + ' views.';
@@ -107,6 +146,7 @@ function showTally() {
     Product.tally.appendChild(liEl);
   }
 }
+
 //event listener
 Product.container.addEventListener('click', handleClick);
 displayPics();
