@@ -4,7 +4,7 @@ html{
 * {
   color: white;
   font-family: 'Vollkorn', serif;
-  outline: 1px none;
+  outline: 1px,none;
 }
 header {
   text-align: center;
@@ -21,7 +21,7 @@ section{
 img {
   width: 150px;
   margin: 25px;
-  outline: 1px black;
+  outline: 1px, black;
   display:inline-block;
 }
 #chart {
