@@ -37,6 +37,13 @@ function Product(name) {
   this.votes = 0;
   this.views = 0;
   Product.all.push(this);
+  // JSON.stringify(Product.names);
+  // var jsonProNames = JSON.stringify(Product.names);
+  // localStorage.setItem('Products',Product.all);
+  // localStorage.getItem('Products');
+  // JSON.parse(Product.names);
+  // var proNames = localStorage.getItem('Products')
+  // var items = localStorage.length;
 }
 for (var i = 0; i < Product.names.length; i++) {
   new Product(Product.names[i]);
@@ -66,19 +73,20 @@ function displayPics() {
     console.error('Duplicate at right! re run it.');
     currentlyShowing[2] = makeRandom();
   }
-  //take it to the DOM
+  //take it to the DOM one more time
   for (var i = 0; i < 3; i++) {
     Product.pics[i].src = Product.all[currentlyShowing[i]].path;
     Product.pics[i].id = Product.all[currentlyShowing[i]].name;
     Product.all[currentlyShowing[i]].views += 1;
     Product.justViewed[i] = currentlyShowing[i];
   }
+  
 }
 //event listener for keeping track of total clicks on images
 function handleClick(event) {
   console.log(Product.totalClicks, 'total clicks');
   //make the clicks stop at 25
-  if (Product.totalClicks > 24) {
+  if (Product.totalClicks > 23) {
     Product.container.removeEventListener('click', handleClick);
     //show the list after the last click
     chart();
@@ -95,9 +103,32 @@ function handleClick(event) {
       console.log(event.target.id + ' has ' + Product.all[i].votes + ' votes in ' + Product.all[i].views + ' views.');
     }
   }
+  var jProduct = JSON.stringify(Product.all);
+  // product names local storage
+  localStorage.setItem('products', jProduct);
+  // total Clicks Local Storage
+  var jTotal = JSON.stringify(Product.totalClicks);
+  localStorage.setItem('clicks', jTotal);
+  localStorage.getItem('clicks');
+  localStorage.parse('clicks');
+  totalClicks.push('clicks');
+  // total views local storage
   displayPics();
 }
 
+function proStorage() {
+  // var jProduct = JSON.stringify(Product.all);
+  // // product names local storage
+  // localStorage.setItem('products', jProduct);
+  // localStorage.getItem('products')
+  // // total clicks local storage
+  // var jTotal = JSON.stringify(Product.totalClicks);
+  // localStorage.setItem('clicks', jTotal);
+  // localStorage.getItem('clicks');
+  // total views local storage
+  localStorage.setItem('views', Product.views);
+}
+// proStorage();
 //show the tally using the list in the DOM once the event listener has been removed
 function chart() {
   var pTotal = [];
@@ -139,12 +170,12 @@ function chart() {
         }
     }
 });
-  for (var i = 0; i < Product.all.length; i++) {
-    var liEl = document.createElement('li');
-    liEl.textContent = Product.all[i].name + ' has ' + Product.all[i].votes + ' votes in ' + Product.all[i].views + ' views.';
-    //append the li to the Product.tally created above globally for the ul
-    Product.tally.appendChild(liEl);
-  }
+  // for (var i = 0; i < Product.all.length; i++) {
+  //   var liEl = document.createElement('li');
+  //   liEl.textContent = Product.all[i].name + ' has ' + Product.all[i].votes + ' votes in ' + Product.all[i].views + ' views.';
+  //   //append the li to the Product.tally created above globally for the ul
+  //   Product.tally.appendChild(liEl);
+  // }
 }
 
 //event listener
