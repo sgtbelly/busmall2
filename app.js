@@ -85,13 +85,7 @@ function displayPics() {
 //event listener for keeping track of total clicks on images
 function handleClick(event) {
   console.log(Product.totalClicks, 'total clicks');
-  //make the clicks stop at 25
-  if (Product.totalClicks > 23) {
-    Product.container.removeEventListener('click', handleClick);
-    //show the list after the last click
-    chart();
-  }
-  //this is how we direct the user to click on a specific image
+//this is how we direct the user to click on a specific image
   if (event.target.id === 'image_container') {
     return alert('Need to click on an image.');
   }
@@ -109,12 +103,26 @@ function handleClick(event) {
   // total Clicks Local Storage
   var jTotal = JSON.stringify(Product.totalClicks);
   localStorage.setItem('clicks', jTotal);
-  localStorage.getItem('clicks');
-  localStorage.parse('clicks');
-  totalClicks.push('clicks');
+  // Product.totalClicks = JSON.parse(getClick);
+  Product.all = JSON.parse(jProduct);
+  //make the clicks stop at 25
+  if (Product.totalClicks > 23) {
+    Product.container.removeEventListener('click', handleClick);
+    //show the list after the last click
+    chart();
+    localStorage.clear();
+  }
+  
   // total views local storage
   displayPics();
 }
+if (localStorage.products) {
+var getClick = localStorage.getItem('clicks');
+Product.totalClicks = JSON.parse(getClick);
+}
+
+
+
 
 function proStorage() {
   // var jProduct = JSON.stringify(Product.all);
